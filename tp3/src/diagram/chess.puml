@@ -1,0 +1,58 @@
+@startuml
+
+abstract Piece{
+    - colour: boolean
+    - origin: Position
+    - position: Position
+    + move(Position, Rule)
+}
+
+enum colour{
+
+}
+
+class Rule{
+}
+
+class Player{
+    -name
+    +move(Piece, Position)
+}
+
+class Position {
+    - xCord: int
+    - yCord: int
+    - piece: Piece
+}
+
+class Game{
+-white: Player
+-black: Player
+-rules: Rule
+-board: Board
+}
+
+class Board {
+    -positions: Position[]
+}
+class King extends Piece{}
+
+class Queen extends Piece{}
+
+class Pawn extends Piece{}
+
+class Tower extends Piece{}
+
+class Bishop extends Piece{}
+
+class Horse extends Piece{}
+
+Player --> Game
+Rule --> Game
+Board --> Game
+Rule --> Piece
+Position --> Piece
+Position --> Board
+
+
+@enduml
