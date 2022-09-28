@@ -1,58 +1,85 @@
 @startuml
 
-abstract Piece{
-    - colour: boolean
+class Piece{
+    - colour: Colour
     - origin: Position
-    - position: Position
-    + move(Position, Rule)
+    - count: int
+  /'- position: Position'/
+    - movements: Movement[]
+    + getPosition()
+    + getColour()
+    + getOrigin()
+    + getCount()
+    + incrementCount()
 }
 
-enum colour{
 
+
+class Movement{
+    -incrementX: int
+    -incrementY: int
+    +getIncrementX()
+    +getIncrementY()
+}
+
+enum Colour{
+    BLACK
+    WHITE
 }
 
 class Rule{
+     -pieceMovement: Map Piece -> Movement[]
+     +getMap()
 }
 
 class Player{
-    -name
-    +move(Piece, Position)
+    -name: String
+    -colour: Colour
+    +move(Piece, Position, Board)
 }
 
 class Position {
     - xCord: int
     - yCord: int
     - piece: Piece
+    + getXCord()
+    + getYCord()
+    + getPiece()
+    + updatePiece(Piece)
 }
 
 class Game{
--white: Player
--black: Player
+-players: Player[]
 -rules: Rule
 -board: Board
++checkWinner()
 }
 
-class Board {
+class Board{
     -positions: Position[]
+    +checkPosition(Position)
+    +isEmpty(Position)
 }
-class King extends Piece{}
 
-class Queen extends Piece{}
-
-class Pawn extends Piece{}
-
-class Tower extends Piece{}
-
-class Bishop extends Piece{}
-
-class Horse extends Piece{}
-
-Player --> Game
-Rule --> Game
-Board --> Game
+Player <-- Game
+Rule <-- Game
+Board <-- Game
 Rule --> Piece
-Position --> Piece
+Position o-- Piece /'checkear direccion de pieza'/
+Piece-->Position
 Position --> Board
+Player --> Colour
+Piece --> Colour
 
+/'
+
+    --|> herencia
+    *-- composición
+    o-- agregación
+    --> asosiación
+    ..> dependencia
+    <|.. realización/implementación
+
+'/
 
 @enduml
