@@ -1,0 +1,6 @@
+    --|> herencia
+    *-- composición
+    o-- agregación
+    --> asosiación
+    ..> dependencia
+    <|.. realización/implementación

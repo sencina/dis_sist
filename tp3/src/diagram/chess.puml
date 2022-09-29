@@ -6,20 +6,32 @@ class Piece{
     - count: int
   /'- position: Position'/
     - movements: Movement[]
+    - name: Name
     + getPosition()
     + getColour()
     + getOrigin()
     + getCount()
     + incrementCount()
+    + getName()
 }
 
+enum Name{
 
+    KING
+    QUEEN
+    BISHOP
+    TOWER
+    KNIGHT
+    PAWN
+}
 
 class Movement{
     -incrementX: int
     -incrementY: int
+    -limitless: bool
     +getIncrementX()
     +getIncrementY()
+    +hasLimit()
 }
 
 enum Colour{
@@ -28,14 +40,22 @@ enum Colour{
 }
 
 class Rule{
-     -pieceMovement: Map Piece -> Movement[]
+     -pieceMovement: Map Name -> Movement[]
+     -winCondition: Piece[]
      +getMap()
+     +validateMovement(movement: Movement)
 }
 
 class Player{
     -name: String
     -colour: Colour
-    +move(Piece, Position, Board)
+    -timeInSeconds: int
+    -deadPieces: Piece[]
+    +movePiece(piece: Piece,position: Position,board: Board)
+    +getTime()
+    +getDeadPieces()
+    +incrementTime(seconds: int)
+    +addDeadPiece(piece: Piece)
 }
 
 class Position {
@@ -45,34 +65,41 @@ class Position {
     + getXCord()
     + getYCord()
     + getPiece()
-    + updatePiece(Piece)
+    + updatePiece(piece: Piece)
 }
 
 class Game{
 -players: Player[]
 -rules: Rule
 -board: Board
+-timeInSeconds: int
 +checkWinner()
++getPlayers()
++getTime()
++getBoard()
 }
 
 class Board{
     -positions: Position[]
-    +checkPosition(Position)
-    +isEmpty(Position)
+    +checkPosition(position: Position)
+    +checkPath(initialPos: Position, finalPos: Position)
+    +isEmpty(position: Position)
 }
 
-Player <-- Game
-Rule <-- Game
-Board <-- Game
 Rule --> Piece
 Position o-- Piece /'checkear direccion de pieza'/
-Piece-->Position
-Position --> Board
+Board --> Position
 Player --> Colour
 Piece --> Colour
+Piece --> Name
+Game *-- Player
+Game *-- Board
+Game *-- Rule
+Rule --> Name
+Rule --> Movement
+Player --> Piece
 
 /'
-
     --|> herencia
     *-- composición
     o-- agregación
